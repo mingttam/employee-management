@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.employeeApi.dtos.EmployeeDto;
 import com.project.employeeApi.dtos.EmployeeRequestDto;
+import com.project.employeeApi.dtos.UpdateEmployeeRequestDto;
 import com.project.employeeApi.entity.EmployeeEntity;
 import com.project.employeeApi.exceptions.CustomExceptions.EmailAlreadyExistsException;
 import com.project.employeeApi.exceptions.CustomExceptions.EmployeeNotFoundException;
@@ -60,24 +61,28 @@ public class EmployeeServices {
         return convertToDto(employee);
     }
 
-    public EmployeeDto updateEmployee(Long id, EmployeeRequestDto employeeRequestDto) {
+    public EmployeeDto updateEmployee(Long id, UpdateEmployeeRequestDto request) {
         EmployeeEntity employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
 
-        if (!employee.getEmail().equals(employeeRequestDto.getEmail()) &&
-                employeeRepository.existsByEmail(employeeRequestDto.getEmail())) {
-            throw new EmailAlreadyExistsException("Email already in use");
-        }
+        if (request.getFullName() != null && !request.getFullName().trim().isEmpty())
+            employee.setFullName(request.getFullName().trim());
 
-        employee.setFullName(employeeRequestDto.getFullName());
-        employee.setDateOfBirth(employeeRequestDto.getDateOfBirth());
-        employee.setGender(employeeRequestDto.getGender());
-        employee.setPhoneNumber(employeeRequestDto.getPhoneNumber());
-        employee.setActive(employeeRequestDto.isActive());
+        if (request.getDateOfBirth() != null)
+            employee.setDateOfBirth(request.getDateOfBirth());
+
+        if (request.getGender() != null)
+            employee.setGender(request.getGender());
+
+        if (request.getPhoneNumber() != null && !request.getPhoneNumber().trim().isEmpty())
+            employee.setPhoneNumber(request.getPhoneNumber().trim());
+
+        employee.setActive(request.isActive());
+
         employee.setUpdatedAt(java.time.LocalDateTime.now());
 
-        if (employeeRequestDto.getPassword() != null && !employeeRequestDto.getPassword().isEmpty()) {
-            employee.setHashedPassword(passwordEncoder.encode(employeeRequestDto.getPassword()));
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            employee.setHashedPassword(passwordEncoder.encode(request.getPassword()));
         }
 
         EmployeeEntity updatedEmployee = employeeRepository.save(employee);

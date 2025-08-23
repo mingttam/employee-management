@@ -7,7 +7,13 @@ import com.project.employeeApi.entity.EmployeeEntity;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpdateEmployeeRequestDto {
 
     @Size(min = 4, max = 160, message = "Full name must be between 4 and 160 characters")

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.employeeApi.dtos.ApiResponse;
 import com.project.employeeApi.dtos.EmployeeDto;
 import com.project.employeeApi.dtos.EmployeeRequestDto;
+import com.project.employeeApi.dtos.UpdateEmployeeRequestDto;
 import com.project.employeeApi.services.EmployeeServices;
 
 import jakarta.validation.Valid;
@@ -49,7 +50,7 @@ public class EmployeeController {
 
     @PutMapping("/employees/{id}")
     public ResponseEntity<ApiResponse<EmployeeDto>> updateEmployee(@PathVariable Long id,
-            @RequestBody @Valid EmployeeRequestDto req) {
+            @RequestBody @Valid UpdateEmployeeRequestDto req) {
         EmployeeDto updatedEmployee = employeeService.updateEmployee(id, req);
         ApiResponse<EmployeeDto> response = ApiResponse.success(updatedEmployee, "Employee updated successfully");
         return ResponseEntity.ok(response);
