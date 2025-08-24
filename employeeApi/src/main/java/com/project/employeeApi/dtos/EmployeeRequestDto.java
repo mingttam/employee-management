@@ -37,7 +37,7 @@ public class EmployeeRequestDto {
     @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
 
-    private boolean active;
+    private boolean active = true;
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters long")

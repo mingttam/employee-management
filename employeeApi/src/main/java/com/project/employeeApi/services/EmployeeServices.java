@@ -40,7 +40,7 @@ public class EmployeeServices {
         employee.setDateOfBirth(employeeRequestDto.getDateOfBirth());
         employee.setGender(employeeRequestDto.getGender());
         employee.setPhoneNumber(employeeRequestDto.getPhoneNumber());
-        employee.setActive(employeeRequestDto.isActive());
+        employee.setActive(true);
         employee.setCreatedAt(java.time.LocalDateTime.now());
 
         EmployeeEntity savedEmployee = employeeRepository.save(employee);
