@@ -120,6 +120,11 @@ const EmployeePage = () => {
       key: "dateOfBirth",
     },
     {
+      title: "Phone Number",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+    },
+    {
       title: "Gender",
       key: "gender",
       dataIndex: "gender",
@@ -130,11 +135,6 @@ const EmployeePage = () => {
           </Tag>
         </>
       ),
-    },
-    {
-      title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
     },
     {
       title: "Status",
@@ -287,6 +287,7 @@ const EmployeePage = () => {
         phoneNumber: fetchEmployeeById.data.phoneNumber,
         active: fetchEmployeeById.data.active,
       });
+      setOpenDetailModal(false);
       setOpenUpdateModal(true);
     }
   };
@@ -307,6 +308,7 @@ const EmployeePage = () => {
           active: values.active !== undefined ? values.active : true,
         },
       });
+      setSelectedEmployeeId(null);
     } catch (error) {
       console.error("Failed to update employee:", error);
     }
@@ -399,8 +401,10 @@ const EmployeePage = () => {
         open={openDetailModal}
         onCancel={handleDetailModalClose}
         footer={
-          <div style={{ textAlign: "center", padding: "16px 0", gap: "12px" }}>
-            <Button key="close" type="primary" onClick={handleDetailModalClose} size="large">
+          <div
+            style={{ display: "flex", justifyContent: "center", padding: "16px 0", gap: "12px" }}
+          >
+            <Button key="close" type="default" onClick={handleDetailModalClose} size="large">
               Close
             </Button>
             <Button
@@ -437,6 +441,7 @@ const EmployeePage = () => {
         width={600}
         okText="Update"
         cancelText="Cancel"
+        confirmLoading={updateEmployeeById.isPending}
       >
         <Form
           form={formUpdate}

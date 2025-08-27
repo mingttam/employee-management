@@ -24,6 +24,7 @@ export interface CreateEmployeeRequest {
 
 export interface UpdateEmployeeRequest {
   fullName: string;
+  password?: string;
   dateOfBirth: string;
   gender: "MALE" | "FEMALE" | "OTHER";
   phoneNumber: string;
